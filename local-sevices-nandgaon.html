@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nandgaon Services Directory - नंदगाँव सेवा निर्देशिका</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ======== NAVBAR ======== -->
+<nav class="navbar navbar-expand-lg navbar-custom" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand-custom" href="#" onclick="showPage('home')">
+      <div class="brand-icon">NS</div>
+      <div>
+        <div class="brand-text">Nandgaon Services</div>
+        <div class="brand-sub">नंदगाँव सेवा निर्देशिका</div>
+      </div>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+      <i class="fas fa-bars" style="color:var(--purple-main)"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navContent">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+        <li><a class="nav-link nav-link-custom" onclick="showPage('home')"><i class="fas fa-home me-1"></i>Home</a></li>
+        <li><a class="nav-link nav-link-custom" onclick="showPage('all')"><i class="fas fa-th-list me-1"></i>All Services</a></li>
+        <li><a class="nav-link nav-link-custom" onclick="showPage('categories')"><i class="fas fa-grid-2 me-1"></i>Categories</a></li>
+        <li id="adminNavBtn"><a class="nav-link btn-admin-login" onclick="openAdminLogin()"><i class="fas fa-lock me-1"></i>Admin</a></li>
+        <li id="adminLogoutBtn" style="display:none"><a class="nav-link btn-admin-login" onclick="adminLogout()"><i class="fas fa-sign-out-alt me-1"></i>Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ======== HOME PAGE ======== -->
+<div id="homePage" class="page-view active">
+
+  <!-- HERO -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <div class="hero-badge"><i class="fas fa-map-marker-alt"></i> Nandgaon, Mathura, UP</div>
+          <h1 class="hero-title">Find Trusted <span>Local Services</span> in Nandgaon</h1>
+          <p class="hero-desc">Connect with verified plumbers, electricians, barbers, mechanics and 20+ more service providers in your village instantly.</p>
+          <div class="hero-stats">
+            <div class="hero-stat-item">
+              <span class="hero-stat-num" id="statProviders">0</span>
+              <span class="hero-stat-label">Service Providers</span>
+            </div>
+            <div class="hero-stat-item">
+              <span class="hero-stat-num">20+</span>
+              <span class="hero-stat-label">Categories</span>
+            </div>
+            <div class="hero-stat-item">
+              <span class="hero-stat-num">100%</span>
+              <span class="hero-stat-label">Verified</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 d-none d-lg-block">
+          <div class="hero-illustration">
+            <div class="hero-card-float">
+              <div class="hero-card-icon"><i class="fas fa-wrench"></i></div>
+              <div class="hero-card-text">
+                <h6>Ram Kishan</h6>
+                <p>Plumber · 12 Years Exp · ⭐ 4.8</p>
+              </div>
+            </div>
+            <div class="hero-card-float">
+              <div class="hero-card-icon"><i class="fas fa-bolt"></i></div>
+              <div class="hero-card-text">
+                <h6>Suresh Yadav</h6>
+                <p>Electrician · 8 Years Exp · ⭐ 4.6</p>
+              </div>
+            </div>
+            <div class="hero-card-float">
+              <div class="hero-card-icon"><i class="fas fa-scissors"></i></div>
+              <div class="hero-card-text">
+                <h6>Munna Barber</h6>
+                <p>Barber · 15 Years Exp · ⭐ 4.9</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEARCH -->
+  <div class="search-section">
+    <div class="container">
+      <div class="search-card">
+        <div class="search-input-group">
+          <div class="search-input-wrap">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search services or provider name..." oninput="handleSearch()">
+          </div>
+          <div class="search-input-wrap" style="min-width:160px">
+            <i class="fas fa-tags"></i>
+            <select id="searchCategory" onchange="handleSearch()">
+              <option value="">All Categories</option>
+            </select>
+          </div>
+          <div class="search-input-wrap" style="min-width:140px">
+            <i class="fas fa-map-pin"></i>
+            <select id="searchLocation" onchange="handleSearch()">
+              <option value="">All Locations</option>
+            </select>
+          </div>
+          <button class="btn-search" onclick="handleSearch()"><i class="fas fa-search"></i> Search</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPULAR CATEGORIES -->
+  <section style="padding-top:5rem">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge"><i class="fas fa-th-large"></i> Browse Categories</div>
+        <h2 class="section-title">Popular Service Categories</h2>
+        <p class="section-desc">Find the right service for your needs from our wide range of categories</p>
+      </div>
+      <div class="categories-grid" id="homeCategoriesGrid"></div>
+    </div>
+  </section>
+
+  <!-- FEATURED PROVIDERS -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge"><i class="fas fa-star"></i> Featured</div>
+        <h2 class="section-title">Featured Service Providers</h2>
+        <p class="section-desc">Top-rated and verified professionals ready to serve you</p>
+      </div>
+      <div class="providers-grid" id="featuredProvidersGrid"></div>
+    </div>
+  </section>
+
+  <!-- LATEST PROVIDERS -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge"><i class="fas fa-clock"></i> Recently Added</div>
+        <h2 class="section-title">Latest Added Providers</h2>
+        <p class="section-desc">Newly joined service providers on our platform</p>
+      </div>
+      <div class="providers-grid" id="latestProvidersGrid"></div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE -->
+  <section style="background:white">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge"><i class="fas fa-shield-alt"></i> Why Us</div>
+        <h2 class="section-title">Why Choose Local Services?</h2>
+        <p class="section-desc">Supporting local talent while getting reliable services at your doorstep</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="why-card">
+            <div class="why-icon" style="background:var(--purple-soft);color:var(--purple-main)"><i class="fas fa-user-check"></i></div>
+            <h5>Verified Providers</h5>
+            <p>Every service provider is personally verified by our team before listing.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="why-card">
+            <div class="why-icon" style="background:var(--saffron-soft);color:var(--saffron-deep)"><i class="fas fa-rupee-sign"></i></div>
+            <h5>Affordable Rates</h5>
+            <p>No hidden charges. Get fair and transparent pricing from local experts.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="why-card">
+            <div class="why-icon" style="background:#D1FAE5;color:#065F46"><i class="fas fa-bolt"></i></div>
+            <h5>Quick Response</h5>
+            <p>Direct call or WhatsApp. Get connected with providers in seconds.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="why-card">
+            <div class="why-icon" style="background:#FEE2E2;color:#991B1B"><i class="fas fa-heart"></i></div>
+            <h5>Support Local</h5>
+            <p>Every booking helps a local family. Build a stronger Nandgaon together.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section">
+    <div class="container position-relative" style="z-index:2">
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <div class="section-badge" style="background:rgba(255,255,255,0.1);color:var(--saffron-light)"><i class="fas fa-envelope"></i> Contact Us</div>
+          <h2 style="color:white;font-weight:800;font-size:1.8rem;margin-bottom:0.5rem">Get in Touch</h2>
+          <p style="color:rgba(255,255,255,0.6);font-size:0.95rem;margin-bottom:2rem">Have questions or want to list your service? Reach out to us.</p>
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="contact-info-text">
+              <h6>Location</h6>
+              <p>Nandgaon, Mathura, Uttar Pradesh - 281402</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="fas fa-phone"></i></div>
+            <div class="contact-info-text">
+              <h6>Phone</h6>
+              <p>+91 98765 43210</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="fab fa-whatsapp"></i></div>
+            <div class="contact-info-text">
+              <h6>WhatsApp</h6>
+              <p>+91 98765 43210</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon"><i class="fas fa-envelope"></i></div>
+            <div class="contact-info-text">
+              <h6>Email</h6>
+              <p>info@nandgaonservices.com</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="contact-form" style="background:rgba(255,255,255,0.06);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius);padding:1.5rem">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <input type="text" placeholder="Your Name" id="contactName">
+              </div>
+              <div class="col-md-6">
+                <input type="tel" placeholder="Phone Number" id="contactPhone">
+              </div>
+              <div class="col-12">
+                <input type="email" placeholder="Email Address" id="contactEmail">
+              </div>
+              <div class="col-12">
+                <textarea rows="4" placeholder="Your Message..." id="contactMsg"></textarea>
+              </div>
+              <div class="col-12">
+                <button class="btn-contact-submit" onclick="submitContact()"><i class="fas fa-paper-plane me-2"></i>Send Message</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ======== ALL SERVICES PAGE ======== -->
+<div id="allPage" class="page-view">
+  <section style="padding-top:2rem">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge"><i class="fas fa-th-list"></i> All Services</div>
+        <h2 class="section-title">All Service Providers</h2>
+        <p class="section-desc">Browse all verified service providers in Nandgaon</p>
+      </div>
+      <div class="search-card mb-4" style="box-shadow:var(--shadow-sm)">
+        <div class="search-input-group">
+          <div class="search-input-wrap">
+            <i class="fas fa-search"></i>
+            <input type="text" id="allSearchInput" placeholder="Search providers..." oninput="renderAllProviders()">
+          </div>
+          <div class="search-input-wrap" style="min-width:160px">
+            <i class="fas fa-tags"></i>
+            <select id="allSearchCategory" onchange="renderAllProviders()">
+              <option value="">All Categories</option>
+            </select>
+          </div>
+          <div class="search-input-wrap" style="min-width:140px">
+            <i class="fas fa-sort"></i>
+            <select id="allSortBy" onchange="renderAllProviders()">
+              <option value="newest">Newest First</option>
+              <option value="rating">Highest Rated</option>
+              <option value="experience">Most Experience</option>
+              <option value="name">Name A-Z</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div id="allProvidersGrid" class="providers-grid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ======== CATEGORIES PAGE ======== -->
+<div id="categoriesPage" class="page-view">
+  <section style="padding-top:2rem">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge"><i class="fas fa-th-large"></i> Categories</div>
+        <h2 class="section-title">All Service Categories</h2>
+        <p class="section-desc">Tap on any category to see all providers</p>
+      </div>
+      <div class="categories-grid" id="allCategoriesGrid" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr))"></div>
+      <div id="categoryProvidersSection" style="display:none;margin-top:2rem">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <button class="btn-admin-action btn-edit" onclick="document.getElementById('categoryProvidersSection').style.display='none'" style="padding:0.5rem 1rem;font-size:0.85rem"><i class="fas fa-arrow-left me-1"></i> Back</button>
+          <h4 id="categoryProvidersTitle" style="font-weight:700;margin:0"></h4>
+        </div>
+        <div id="categoryProvidersGrid" class="providers-grid"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ======== FOOTER ======== -->
+<footer class="footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <div class="brand-icon" style="width:36px;height:36px;font-size:0.85rem;border-radius:10px">NS</div>
+          <span style="color:white;font-weight:700;font-size:1rem">Nandgaon Services</span>
+        </div>
+        <p style="font-size:0.85rem;line-height:1.7;margin-bottom:1rem">Connecting villagers with trusted local service providers. Building a stronger Nandgaon, one service at a time.</p>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h5>Quick Links</h5>
+        <a href="#" onclick="showPage('home')">Home</a>
+        <a href="#" onclick="showPage('all')">All Services</a>
+        <a href="#" onclick="showPage('categories')">Categories</a>
+        <a href="#">About Us</a>
+      </div>
+      <div class="col-6 col-lg-3">
+        <h5>Top Categories</h5>
+        <a href="#" onclick="filterByCategory('Plumber')">Plumber</a>
+        <a href="#" onclick="filterByCategory('Electrician')">Electrician</a>
+        <a href="#" onclick="filterByCategory('Barber')">Barber</a>
+        <a href="#" onclick="filterByCategory('Mechanic')">Mechanic</a>
+        <a href="#" onclick="filterByCategory('Carpenter')">Carpenter</a>
+      </div>
+      <div class="col-lg-3">
+        <h5>Contact Info</h5>
+        <a href="#"><i class="fas fa-map-marker-alt me-2"></i>Nandgaon, Mathura</a>
+        <a href="tel:+919876543210"><i class="fas fa-phone me-2"></i>+91 98765 43210</a>
+        <a href="https://wa.me/919876543210"><i class="fab fa-whatsapp me-2"></i>WhatsApp Us</a>
+        <a href="mailto:info@nandgaonservices.com"><i class="fas fa-envelope me-2"></i>Email Us</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Nandgaon Services Directory. All Rights Reserved. Made with <i class="fas fa-heart" style="color:var(--danger)"></i> for Nandgaon</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ======== ADMIN LOGIN MODAL ======== -->
+<div class="modal fade" id="adminLoginModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body" style="padding:2rem">
+        <div class="login-box">
+          <div class="login-icon"><i class="fas fa-shield-alt"></i></div>
+          <h5>Admin Login</h5>
+          <p>Enter your credentials to access the admin panel</p>
+          <div class="login-error" id="loginError"><i class="fas fa-exclamation-circle me-1"></i> Invalid username or password</div>
+          <div class="admin-form-group" style="text-align:left">
+            <label>Username</label>
+            <input type="text" id="adminUsername" placeholder="Enter username" onkeydown="if(event.key==='Enter')adminLoginAction()">
+          </div>
+          <div class="admin-form-group" style="text-align:left">
+            <label>Password</label>
+            <input type="password" id="adminPassword" placeholder="Enter password" onkeydown="if(event.key==='Enter')adminLoginAction()">
+          </div>
+          <button class="btn-save-provider w-100" onclick="adminLoginAction()"><i class="fas fa-sign-in-alt me-2"></i>Login</button>
+          <!-- <p style="font-size:0.72rem;color:var(--gray-500);margin-top:1rem">Default: admin / admin123</p> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== ADMIN PANEL OVERLAY ======== -->
+<div class="admin-overlay" id="adminOverlay">
+  <div class="admin-panel">
+    <div class="admin-header">
+      <h4><i class="fas fa-cog me-2"></i>Admin Panel</h4>
+      <button style="background:rgba(255,255,255,0.15);border:none;color:white;width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:1rem" onclick="closeAdminPanel()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="admin-body">
+      <!-- Stats -->
+      <div class="admin-stat-grid" id="adminStats"></div>
+      <!-- Tabs -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="switchAdminTab('providers',this)">All Providers</button>
+        <button class="admin-tab" onclick="switchAdminTab('add',this)">Add New</button>
+        <button class="admin-tab" onclick="switchAdminTab('pending',this)">Pending</button>
+        <button class="admin-tab" onclick="switchAdminTab('categories',this)">Categories</button>
+      </div>
+      <!-- Tab: Providers List -->
+      <div id="adminTabProviders">
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Provider</th>
+                <th>Category</th>
+                <th>Rating</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminProvidersTable"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Tab: Add/Edit Form -->
+      <div id="adminTabAdd" style="display:none">
+        <div style="background:white;border-radius:var(--radius-sm);padding:1.5rem;box-shadow:var(--shadow-sm)">
+          <h5 style="font-weight:700;margin-bottom:1.2rem" id="formTitle">Add New Provider</h5>
+          <input type="hidden" id="editProviderId">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="admin-form-group"><label>Full Name *</label><input type="text" id="formName" placeholder="e.g. Ram Kishan Sharma"></div>
+            </div>
+            <div class="col-md-6">
+              <div class="admin-form-group"><label>Category *</label><select id="formCategory"></select></div>
+            </div>
+            <div class="col-md-6">
+              <div class="admin-form-group"><label>Village Location *</label><input type="text" id="formLocation" placeholder="e.g. Nandgaon Main Market"></div>
+            </div>
+            <div class="col-md-6">
+              <div class="admin-form-group"><label>Experience (Years) *</label><input type="number" id="formExperience" placeholder="e.g. 10" min="0"></div>
+            </div>
+            <div class="col-md-6">
+              <div class="admin-form-group"><label>Rating (1-5) *</label><input type="number" id="formRating" placeholder="e.g. 4.5" min="1" max="5" step="0.1"></div>
+            </div>
+            <div class="col-md-6">
+              <div class="admin-form-group"><label>Total Reviews</label><input type="number" id="formReviews" placeholder="e.g. 45" min="0"></div>
+            </div>
+            <div class="col-md-6">
+              <div class="admin-form-group"><label>Phone Number *</label><input type="tel" id="formPhone" placeholder="e.g. 9876543210"></div>
+            </div>
+            <div class="col-md-6">
+              <div class="admin-form-group"><label>WhatsApp Number</label><input type="tel" id="formWhatsapp" placeholder="e.g. 9876543210"></div>
+            </div>
+            <div class="col-md-6">
+              <div class="admin-form-group"><label>Service Charges</label><input type="text" id="formCharges" placeholder="e.g. ₹200-₹500"></div>
+            </div>
+            <div class="col-md-6">
+              <div class="admin-form-group"><label>Availability *</label>
+                <select id="formAvailability">
+                  <option value="Available">Available</option>
+                  <option value="Busy">Busy</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="admin-form-group"><label>Status</label>
+                <select id="formStatus">
+                  <option value="approved">Approved</option>
+                  <option value="pending">Pending</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="admin-form-group"><label>Profile Photo URL</label><input type="text" id="formPhoto" placeholder="https://..."></div>
+            </div>
+            <div class="col-12">
+              <div class="admin-form-group"><label>Short Description</label><textarea id="formDescription" rows="3" placeholder="Brief description about the service provider..."></textarea></div>
+            </div>
+            <div class="col-12">
+              <div class="admin-form-group"><label>Gallery Image URLs (comma separated)</label><input type="text" id="formGallery" placeholder="https://img1.jpg, https://img2.jpg"></div>
+            </div>
+            <div class="col-12">
+              <div class="d-flex gap-2 flex-wrap">
+                <button class="btn-save-provider" onclick="saveProvider()"><i class="fas fa-save me-2"></i>Save Provider</button>
+                <button class="btn-cancel-form" onclick="resetForm();switchAdminTab('providers',document.querySelector('.admin-tab'))">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Tab: Pending -->
+      <div id="adminTabPending" style="display:none">
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Provider</th><th>Category</th><th>Actions</th></tr></thead>
+            <tbody id="adminPendingTable"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Tab: Categories -->
+      <div id="adminTabCategories" style="display:none">
+        <div style="background:white;border-radius:var(--radius-sm);padding:1.5rem;box-shadow:var(--shadow-sm)">
+          <h5 style="font-weight:700;margin-bottom:1rem">Manage Categories</h5>
+          <div class="d-flex gap-2 mb-3">
+            <input type="text" id="newCategoryName" placeholder="New category name" style="flex:1;padding:0.6rem 1rem;border:2px solid var(--gray-200);border-radius:var(--radius-xs);font-family:'Poppins',sans-serif;font-size:0.85rem">
+            <input type="text" id="newCategoryIcon" placeholder="Icon class (fa-wrench)" style="width:180px;padding:0.6rem 1rem;border:2px solid var(--gray-200);border-radius:var(--radius-xs);font-family:'Poppins',sans-serif;font-size:0.85rem">
+            <button class="btn-save-provider" onclick="addCategory()" style="white-space:nowrap"><i class="fas fa-plus me-1"></i>Add</button>
+          </div>
+          <div id="categoriesManageList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== PROFILE MODAL ======== -->
+<div class="modal fade" id="profileModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" style="overflow:hidden">
+      <div class="profile-header-bg">
+        <button class="btn-close" data-bs-dismiss="modal" style="position:absolute;right:12px;top:12px;filter:invert(1);opacity:0.8"></button>
+        <div class="profile-avatar-lg" id="profileAvatar"></div>
+      </div>
+      <div class="modal-body" style="padding-top:3.5rem">
+        <div class="d-flex align-items-start justify-content-between flex-wrap gap-2 mb-3">
+          <div>
+            <h4 style="font-weight:800;margin:0" id="profileName"></h4>
+            <span class="provider-category-tag mt-1 d-inline-block" id="profileCategory"></span>
+          </div>
+          <div class="d-flex gap-2">
+            <span class="status-badge" id="profileStatus"></span>
+            <span id="profileVerified"></span>
+          </div>
+        </div>
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <div style="background:var(--gray-100);border-radius:var(--radius-xs);padding:0.8rem 1rem">
+              <small style="color:var(--gray-500);font-size:0.72rem"><i class="fas fa-map-marker-alt me-1"></i>Location</small>
+              <div style="font-weight:600;font-size:0.9rem" id="profileLocation"></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="background:var(--gray-100);border-radius:var(--radius-xs);padding:0.8rem 1rem">
+              <small style="color:var(--gray-500);font-size:0.72rem"><i class="fas fa-briefcase me-1"></i>Experience</small>
+              <div style="font-weight:600;font-size:0.9rem" id="profileExperience"></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="background:var(--gray-100);border-radius:var(--radius-xs);padding:0.8rem 1rem">
+              <small style="color:var(--gray-500);font-size:0.72rem"><i class="fas fa-rupee-sign me-1"></i>Charges</small>
+              <div style="font-weight:600;font-size:0.9rem" id="profileCharges"></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="background:var(--gray-100);border-radius:var(--radius-xs);padding:0.8rem 1rem">
+              <small style="color:var(--gray-500);font-size:0.72rem"><i class="fas fa-star me-1"></i>Rating</small>
+              <div id="profileRating"></div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <h6 style="font-weight:700;font-size:0.9rem;margin-bottom:0.5rem"><i class="fas fa-info-circle me-1"></i>About</h6>
+          <p style="font-size:0.88rem;color:var(--gray-500);line-height:1.7;margin:0" id="profileDescription"></p>
+        </div>
+        <div class="mb-3" id="profileGalleryWrap" style="display:none">
+          <h6 style="font-weight:700;font-size:0.9rem;margin-bottom:0.5rem"><i class="fas fa-images me-1"></i>Gallery</h6>
+          <div class="profile-gallery" id="profileGallery"></div>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+          <a class="btn-provider-action btn-call" id="profileCallBtn" style="flex:1;min-width:120px;border-radius:var(--radius-sm);text-decoration:none"><i class="fas fa-phone"></i> Call Now</a>
+          <a class="btn-provider-action btn-whatsapp" id="profileWhatsappBtn" style="flex:1;min-width:120px;border-radius:var(--radius-sm);text-decoration:none"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== TOAST CONTAINER ======== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ======== BACK TO TOP ======== -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
